@@ -1,15 +1,21 @@
 const express = require('express');
-const authRoutes = require('./routes/auth.js')
-const analyticsRoutes = require('./routes/analytics.js')
-const categotyRoutes = require('./routes/category.js')
-const orderRoutes = require('./routes/order.js')
-const positionRoutes = require('./routes/position.js')
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const morgan = require('morgan');
+const authRouter = require('./routes/auth.js');
 const app = express();
+const keys = require('./config/keys.js')
 
-app.use ('/api/auth', authRoutes)
-app.use ('/api/analytics', analyticsRoutes)
-app.use ('/api/category', categotyRoutes)
-app.use ('/api/order', orderRoutes)
-app.use ('/api/position', positionRoutes)
+mongoose.connect(keys.mongoURI)
+    .then(() => console.log('MongoDb Connected'))
+    .catch(error => console.log(error))
+
+app.use(morgan('dev'))
+app.use(cors())
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json)
+
+app.use ('/api/auth', authRouter)
 
 module.exports = app;

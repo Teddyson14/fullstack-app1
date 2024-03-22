@@ -2,7 +2,6 @@
 
 const express = require('express');
 const controllers = require ('../controllers/auth.js');
-const { route } = require('../app');
 const router = express.Router()
 
 //lochalhost:3000/api/auth/login
